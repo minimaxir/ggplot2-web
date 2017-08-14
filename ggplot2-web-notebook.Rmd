@@ -1,0 +1,249 @@
+---
+title: "How to Make High Quality Charts on the Web With R and ggplot2"
+author: "Max Woolf (@minimaxir)"
+date: "2014-08-14"
+output:
+  html_notebook:
+    highlight: tango
+    mathjax: null
+    number_sections: yes
+---
+
+# Setup
+
+```{r}
+library(ggplot2)
+```
+
+
+```{r}
+mpg
+```
+
+```{r}
+p <- ggplot(mpg, aes(x = displ, y = hwy)) + 
+    geom_point()
+
+p
+```
+
+```{r}
+p <- p +
+    theme_minimal()
+
+p
+```
+
+```{r}
+p <- ggplot(mpg, aes(x = displ, y = hwy, color=class)) + 
+    geom_point() +
+    theme_minimal()
+
+p
+```
+
+
+```{r}
+p <- p +
+    geom_smooth(method = "lm", se=F)
+
+p
+```
+
+
+```{r}
+p <-  p +
+    labs(title="Efficiency of Popular Models of Cars",
+         subtitle="By Class of Car",
+         x="Engine Displacement (liters)",
+         y="Highway Miles per Gallon",
+         caption="by Max Woolf — minimaxir.com")
+
+p
+```
+
+# ggsave
+
+```{r}
+p <- ggplot(mpg, aes(x = displ, y = hwy, color=class)) + 
+    geom_smooth(method = "lm", se=F, size=0.5) +
+    geom_point(size=0.5) +
+    theme_minimal(base_size=9) +
+    labs(title="Efficiency of Popular Models of Cars",
+         subtitle="By Class of Car",
+         x="Engine Displacement (liters)",
+         y="Highway Miles per Gallon",
+         caption="by Max Woolf — minimaxir.com")
+
+
+ggsave("tutorial-0.png", p, width=4, height=3)
+```
+
+
+# Design
+
+```{r}
+p <- p +
+    theme_minimal(base_size=9, base_family="Roboto")
+
+ggsave("tutorial-1.png", p, width=4, height=3)
+```
+
+![](tutorial-1.png)
+
+```{r}
+p <- p + 
+    theme(plot.subtitle = element_text(color="#666666"),
+          plot.title = element_text(family="Roboto Condensed Bold"),
+          plot.caption = element_text(color="#AAAAAA", size=6))
+
+ggsave("tutorial-2.png", p,  width=4, height=3)
+```
+
+![](tutorial-2.png)
+
+# Color Schemes
+
+```{r}
+library(RColorBrewer)
+library(viridis)
+```
+
+
+```{r}
+plot <- p +
+        scale_color_hue()
+
+ggsave("tutorial-3.png", plot,  width=4, height=3)
+```
+
+![](tutorial-3.png)
+
+```{r}
+p_color <- p +
+        scale_color_hue(l = 40)
+
+ggsave("tutorial-4.png", p_color,  width=4, height=3)
+```
+
+![](tutorial-4.png)
+
+```{r}
+color_set <- "Blues"
+
+p_color <- p +
+        scale_color_brewer(palette=color_set)
+
+ggsave("tutorial-5.png", p_color,  width=4, height=3)
+```
+
+![](tutorial-5.png)
+
+```{r}
+color_set <- "Spectral"
+
+p_color <- p +
+        scale_color_brewer(palette=color_set)
+
+ggsave("tutorial-6.png", p_color,  width=4, height=3)
+```
+
+![](tutorial-6.png)
+
+```{r}
+color_set <- "Set1"
+
+p_color <- p +
+        scale_color_brewer(palette=color_set)
+
+ggsave("tutorial-7.png", p_color,  width=4, height=3)
+```
+
+![](tutorial-7.png)
+
+```{r}
+color_set <- "Set2"
+
+p_color <- p +
+        scale_color_brewer(palette=color_set)
+
+ggsave("tutorial-8.png", p_color,  width=4, height=3)
+```
+
+![](tutorial-8.png)
+
+```{r}
+color_set <- "Set3"
+
+p_color <- p +
+        scale_color_brewer(palette=color_set)
+
+ggsave("tutorial-9.png", p_color,  width=4, height=3)
+```
+
+![](tutorial-9.png)
+
+## Viridis
+
+```{r}
+p <- ggplot(mpg, aes(x = displ, y = hwy)) + 
+    geom_bin2d(bins=10) +
+    theme_minimal(base_size=9, base_family="Roboto") +
+    labs(title="Efficiency of Popular Models of Cars",
+         subtitle="By Class of Car",
+         x="Engine Displacement (liters)",
+         y="Highway Miles per Gallon",
+         caption="by Max Woolf — minimaxir.com",
+         fill='# of Cars') + 
+    theme(plot.subtitle = element_text(color="#666666"),
+          plot.title = element_text(family="Roboto Condensed Bold"),
+          plot.caption = element_text(color="#AAAAAA", size=6))
+
+ggsave("tutorial-tile.png", p,  width=4, height=3)
+```
+
+![](tutorial-tile.png)
+
+```{r}
+p_color <- p +
+        scale_fill_viridis(option="viridis")
+
+ggsave("tutorial-10.png", p_color,  width=4, height=3)
+```
+
+![](tutorial-10.png)
+
+```{r}
+option <- "magma"
+
+p_color <- p +
+        scale_fill_viridis(option=option)
+
+ggsave("tutorial-11.png", p_color,  width=4, height=3)
+```
+
+![](tutorial-11.png)
+
+```{r}
+option <- "inferno"
+
+p_color <- p +
+        scale_fill_viridis(option=option)
+
+ggsave("tutorial-12.png", p_color,  width=4, height=3)
+```
+
+![](tutorial-12.png)
+
+
+
+```{r}
+option <- "plasma"
+
+p_color <- p +
+        scale_fill_viridis(option=option)
+
+ggsave("tutorial-13.png", p_color,  width=4, height=3)
+```
+
+![](tutorial-13.png)
